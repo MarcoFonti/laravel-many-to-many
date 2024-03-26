@@ -1,16 +1,16 @@
 @extends('layouts.app')
 
-@section('title', 'Create Types')
+@section('title', 'Create Technology')
 
 @section('content')
     <div class="card m-5 p-3 shadow-lg">
-        <h1 class="text-center mt-3 text-uppercase text-danger">Nuova Categoria</h1>
-        <form action="{{ route('admin.types.store') }}" method="POST">
+        <h1 class="text-center mt-3 text-uppercase text-danger">Nuova Tecnologia</h1>
+        <form action="{{ route('admin.technologies.store') }}" method="POST">
             @csrf
             <div class="row mt-3">
                 <div class="col-9">
                     <div class="mb-3">
-                        <label for="label" class="form-label">Etichetta Categoria</label>
+                        <label for="label" class="form-label">Etichetta Tecnologia</label>
                         <input type="text"
                             class="form-control 
                             @error('label') is-invalid 
@@ -26,7 +26,7 @@
                 </div>
                 <div class="col-3">
                     <div class="mb-3">
-                        <label for="color" class="form-label">Colore Categoria</label>
+                        <label for="color" class="form-label">Colore Tecnologia</label>
                         <input type="color"
                             class="form-control 
                             @error('color') is-invalid 
@@ -42,7 +42,7 @@
                 </div>
                 <div class="col-6">
                     <div class="d-flex justify-content-start align-items-center">
-                        <a class="btn btn-secondary" href="{{ route('admin.types.index') }}"><i
+                        <a class="btn btn-secondary" href="{{ route('admin.technologies.index') }}"><i
                                 class="fa-solid fa-rotate-left me-2"></i>Torna Indietro</a>
                     </div>
                 </div>

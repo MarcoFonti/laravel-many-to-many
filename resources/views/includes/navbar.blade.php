@@ -43,6 +43,12 @@
                         active
                     @endif" href="{{ route('admin.types.index') }}">{{ __('Lista Categarie') }}</a>
                 </li>
+                <li class="nav-item">
+                    {{-- ROTTA INDEX TECNOLOGIE ADMIN --}}
+                    <a class="nav-link @if (Request::is('admin/technologies*'))
+                        active
+                    @endif" href="{{ route('admin.technologies.index') }}">{{ __('Lista Tecnologie') }}</a>
+                </li>
                 @endauth
             </ul>
 
