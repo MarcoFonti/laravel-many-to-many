@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Project;
 use App\Models\Technology;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -13,6 +14,10 @@ class TechnologySeeder extends Seeder
      */
     public function run(): void
     {
+        /* CREO ARRAY CON GLI ID DEL MODEL PROJECT */
+        $projects_ids = Project::pluck('id')->toArray();
+
+        
         /* CREO TECNOLOGIE DEL PROGETTO */
         $tecno_information = [
             ['label' => 'HTML', 'color' => 'info'],
@@ -37,6 +42,12 @@ class TechnologySeeder extends Seeder
                      
             /* SALVATAGGIO */
             $technology->save();
+
+            /* CREO UN ARRAY CHE SELEZIONE CASUALEMENTE GLI ID DEL MODEL PROJECT */
+            $technology_projects = array_filter($projects_ids, fn () => rand(0,1));
+            
+            /* ATTACCO I RECORD DLLE TECNOLOGIE AI PROGETTI */
+            $technology->projects()->attach($technology_projects);
         }
     }
 }
