@@ -3,6 +3,7 @@
 use App\Http\Controllers\admin\HomeController as AdminHomeController;
 use App\Http\Controllers\guest\HomeController as GuestHomeController;
 use App\Http\Controllers\admin\ProjectController as AdminProjectController;
+use App\Http\Controllers\admin\TechnologyController as AdminTechnologyController;
 use App\Http\Controllers\admin\TypeController;
 use App\Http\Controllers\guest\ProjectController as GuestProjectController;
 use App\Http\Controllers\ProfileController;
@@ -80,6 +81,9 @@ Route::prefix('/admin')->name('admin.')->middleware('auth')->group(function(){
     
     /* TUTTE LE ROTTE ADMIN TYPES TRANNE LA SHOW */
     Route::resource('/types', TypeController::class)->except('show');
+
+    /* TUTTE LE ROTTE ADMIN TECHNOLOGIES TRANNE LA SHOW */
+    Route::resource('/technologies', AdminTechnologyController::class)->except('show');
     
 });
 

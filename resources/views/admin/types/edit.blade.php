@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="card m-5 p-3 shadow-lg">
-        <h1 class="text-center mt-3 text-uppercase text-danger">Modifica progetto</h1>
+        <h1 class="text-center mt-3 text-uppercase text-danger">Modifica Categoria</h1>
         <form action="{{ route('admin.types.update', $type->id) }}" method="POST">
             @csrf
             @method('PUT')
@@ -51,7 +51,7 @@
                 </div>
                 <div class="col-6">
                     <div class="d-flex justify-content-end align-items-center gap-3">
-                        <button type="submit" class="btn btn-info"><i class="fas fa-eraser me-2"></i>Svuota campi</button>
+                        <button type="reset" class="btn btn-info"><i class="fas fa-eraser me-2"></i>Svuota campi</button>
                         <button type="submit" class="btn btn-success"><i class="fas fa-floppy-disk me-2"></i>Salva
                             Progetto</button>
                     </div>

@@ -9,6 +9,9 @@ class Technology extends Model
 {
     use HasFactory;
 
+    /* ASSEGNO VALORI DI MASSA */
+    protected $fillable = ['label', 'color'];
+
     /* RELAZIONE CON IL MEDELLO PROJECT */
     public function projects() {
         /* MOLTI PROGETTI */
