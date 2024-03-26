@@ -27,6 +27,9 @@ class ProjectController extends Controller
         /* RECUPERI VALORE DELLA QUERY PER TIPOLOGIE */
         $type_filter = $request->query('type_filter');
 
+        /* RECUPERI VALORE DELLA QUERY PER TECNOLOGIE */
+        $technology_filter = $request->query('technology_filter');
+
         /* PREPARO LA QUERY DEL MODELLO IN ORDINE DESCRESCENTE MODIFICA E CREAZIONE */
         $query = Project::orderByDesc('updated_at')->orderByDesc('created_at');
 
@@ -41,14 +44,26 @@ class ProjectController extends Controller
             $query->where('type_id', $type_filter);
         }
 
+        /* SE LA VARIABILE TECHNOLOGY_FILTER ESISTE IN BASE AL VALORE ID FILTRA */
+        if($technology_filter) {
+            /* FILTRO I RISULTATI DELLA QUERY DELLA TABELLA PONTE */
+            $query->whereHas('technologies', function($query) use ($technology_filter){
+                /* CERCO ID CORRISPONDETE FILTRATO NELLA TABELLA TECHNOLOGIES */
+                $query->where('technologies.id', $technology_filter);
+            });
+        }
+
         /* PAGINAZIONE A 10 ALLA VOLTA E MANTIENI LINK SULL'URL */
         $projects = $query->paginate(10)->withQueryString();
 
         /* RECUPERO TUTTE LE TIPOLOGIE */
         $types = Type::all();
+
+        /* RECUPERO TUTTE LE TECNOLOGIE */
+        $technologies = Technology::all();
         
         /* RETURN NELLA STESSA PAGINA */
-        return view('admin.projects.index', compact('projects', 'filter', 'types', 'type_filter'));
+        return view('admin.projects.index', compact('projects', 'filter', 'types', 'type_filter', 'technologies', 'technology_filter'));
     }
 
     /**
