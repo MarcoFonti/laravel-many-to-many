@@ -28,7 +28,8 @@ class TypeSeeder extends Seeder
             $type->label = $label;
             
             /* ASSEGNO LA PROPIETA' DELL'OGGETTO A UN METODO FAKER */
-            $type->color = $faker->hexColor();            
+            $type->color = $faker->hexColor();
+                        
             /* SALVATAGGIO */
             $type->save();
         }
