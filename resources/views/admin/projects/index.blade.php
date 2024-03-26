@@ -9,17 +9,17 @@
             <div class="d-flex justify-content-center align-items-center gap-3 mt-4">
                 {{-- FITRLI --}}
                 <form action="{{ route('admin.projects.index') }}" method="GET">
+                    {{-- FITRLO PUBBLICAZIONE --}}
                     <div class="input-group mb-3">
-                        {{-- FITRLO PUBBLICAZIONE --}}
                         <select name="filter" class="form-select">
                             <option value="">Tutti i progetti</option>
                             <option @if ($filter === 'published') selected @endif value="published">Completati</option>
                             <option @if ($filter === 'draft') selected @endif value="draft">Bozze</option>
                         </select>
                         <button class="btn btn-dark text-warning" type="submit">Filtra</button>
-                        {{-- FILTRO PER TIPOLOGIA --}}
                     </div>
-                    <div class="input-group">
+                    {{-- FILTRO PER TIPOLOGIA --}}
+                    <div class="input-group mb-3">
                         <select name="type_filter" class="form-select">
                             <option value="">Tutte le tipologie</option>
                             @foreach ($types as $type)
@@ -29,12 +29,24 @@
                         </select>
                         <button class="btn btn-dark text-warning" type="submit">Filtra</button>
                     </div>
+                    {{-- FILTRO PER TECNOLOGIE --}}
+                    <div class="input-group">
+                        <select name="technology_filter" class="form-select">
+                            <option value="">Tutte le tecnologie</option>
+                            @foreach ($technologies as $technology)
+                                <option value="{{ $technology->id }}" @if ($technology_filter == $technology->id) selected @endif>
+                                    {{ $technology->label }}</option>
+                            @endforeach
+                        </select>
+                        <button class="btn btn-dark text-warning" type="submit">Filtra</button>
+                    </div>
+                    <a href="{{ route('admin.projects.index') }}" class="btn btn-dark text-danger mt-3 w-100" type="submit">Reset Filtro</a>
                 </form>
-                <a href="{{ route('admin.projects.trash') }}" class="btn btn-secondary">Vedi Cestino<i
-                        class="far fa-trash-can ms-2"></i></a>
             </div>
         </header>
         <div class="card p-3 shadow-lg mt-3">
+            <a href="{{ route('admin.projects.trash') }}" class="btn btn-secondary m-auto">Vedi Cestino<i
+                    class="far fa-trash-can ms-2"></i></a>
             <table class="table table-dark table-striped table-hover mt-4">
                 <thead>
                     <tr class="text-uppercase">
