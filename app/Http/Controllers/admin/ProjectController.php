@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateProjectRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Project;
+use App\Models\Technology;
 use App\Models\Type;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
@@ -55,11 +56,14 @@ class ProjectController extends Controller
      */
     public function create()
     {   
-        /* RECUPERO SOLO CIO CHE MI SERVE DAL MODELLO */
+        /* RECUPERO SOLO CIO CHE MI SERVE DAL MODELLO TYPE */
         $types = Type::select('label', 'id')->get();
         
+        /* RECUPERO SOLO CIO CHE MI SERVE DAL MODELLO TECHNOLOGY */
+        $technologies = Technology::select('label', 'id')->get();
+        
         /* RETURN NELLA STESSA PAGINA */
-        return view('admin.projects.create', compact('types'));
+        return view('admin.projects.create', compact('types', 'technologies'));
     }
 
     /**
@@ -97,6 +101,12 @@ class ProjectController extends Controller
         /* SALVATAGGIO */
         $project->save();
 
+        /* VERIFICO SE ESISTE NELL'ARRAY LA CHIAVE TECHNOLOGIIES, SE ESTISTE */
+        if(Arr::exists($data, 'technologies')){
+            /* ATTACCO I RECORD DEL PROGETTO AI RECORD DELLE TECNOLOGIE */
+            $project->technologies()->attach($data['technologies']);
+        }
+
         /* RETURN SULLA SHOW CON ID E CREO MESSAGGIO ALERT */
         return to_route('admin.projects.show', $project->id)->with('type', 'success')->with('message', "Elemento ( $project->title ) salvato");
     }
@@ -115,10 +125,17 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
+        /* CREO ARRAY CON GLI ID DI TECHNOLOGIES */
+        $array_technologies = $project->technologies->pluck('id')->toArray();
+        
         /* RECUPERO SOLO CIO CHE MI SERVE DAL MODELLO */
         $types = Type::select('label', 'id')->get();
+
+        /* RECUPERO SOLO CIO CHE MI SERVE DAL MODELLO TECHNOLOGY */
+        $technologies = Technology::select('label', 'id')->get();
+
         /* RETURN NELLA STESSA PAGINA */
-        return view('admin.projects.edit', compact('project', 'types'));
+        return view('admin.projects.edit', compact('project', 'types', 'array_technologies', 'technologies'));
     }
 
     /**
@@ -156,6 +173,17 @@ class ProjectController extends Controller
 
         /* SALVATAGGIO */
         $project->update($data);
+
+        /* VERIFICO SE ESISTE NELL'ARRAY LA CHIAVE TECHNOLOGIIES, SE ESTISTE , ALTRIMENTI SE NON ESISTE E CI SONO RELAZIONI */
+        if(Arr::exists($data, 'technologies')){
+            /* SINCRONIZZO I RECORD DEL PROGETTO AI RECORD DELLE TECNOLOGIE */
+            $project->technologies()->sync($data['technologies']);
+            
+        }elseif(!Arr::exists($data, 'technologies') && $project->has('technologies')){
+            
+            /* DISSOCIA I RECORD DEL PROGETTO AI RECORD DELLE TECNOLOGIE */
+            $project->technologies()->detach($data['technologies']);
+        }
 
         /* RETURN SULLA SHOW CON ID E CREO MESSAGGIO ALERT */
         return to_route('admin.projects.show', $project->id)->with('type', 'info')->with('message', "Elemento ( $project->title ) aggiornato");
@@ -203,12 +231,20 @@ class ProjectController extends Controller
         return to_route('admin.projects.index')->with('type', 'success')->with('message', "Elemento ( $projects->title ) ripreso dal cestino");
     }
 
-    public function drop(string $id)
+    public function drop(string $id, Project $project)
     {
         /* RECUPERO ELEMENTO CON ID SPECIFICO SE ELEMINATO */
         $projects = Project::onlyTrashed()->findOrFail($id);
 
+        /* SE CI SONO RELAZIONI */
+        if ($project->has('technologies')) {
+            /* DISSOCIA I RECORD DEL PROGETTO AI RECORD DELLE TECNOLOGIE */
+            $project->technologies()->detach();
+        }
+
+        /* SE CE UN PROGETTO  */
         if ($projects) {
+            /* ELIMINAZIONE */
             Storage::delete($projects->image);
         }
 
