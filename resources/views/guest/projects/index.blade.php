@@ -20,8 +20,17 @@
         </div>
         @forelse ($projects as $project)
             <div class="card my-3">
-                <div class="card-header d-flex align-items-center justify-content-between text-uppercase">
-                    {{ $project->title }}
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="text-uppercase me-3">{{ $project->title }}</span>
+                        <span>
+                            @forelse ($project->technologies as $technology)
+                                <strong class="text-uppercase"><i class="fa-solid fa-screwdriver-wrench">:</i></strong><span class="ms-1 badge rounded-pill text-bg-{{ $technology->color }}">{{ $technology->label }}</span>
+                            @empty
+                                <strong class="text-uppercase"><i class="fa-solid fa-screwdriver-wrench">:</i></strong><span class="ms-1">Nessuna</span>
+                        @endforelse
+                        </span>
+                    </div>
                     <a href="{{ route('guest.projects.show', $project->slug) }}" class="btn btn-primary"><i
                             class="fas fa-eye"></i></a>
                 </div>

@@ -20,9 +20,16 @@
                         Nessuna
                     @endif
                 </div>
-                <div class="d-flex align-items-center text-uppercase gap-1">
-                    <strong>Data creazione: </strong> <span class="me-3">{{ $project->getCreatedAt() }}</span>
-                    <strong>Ultima modifica: </strong> <span>{{ $project->getUpdatedAt() }}</span>
+                <div>
+                    <strong class="text-uppercase">Data creazione: </strong> <span class="me-3">{{ $project->getCreatedAt() }}</span>
+                    <strong class="text-uppercase">Ultima modifica: </strong> <span>{{ $project->getUpdatedAt() }}</span>
+                    <div class="mt-2">
+                        @forelse ($project->technologies as $technology)
+                            <strong class="text-uppercase">Tecnologie: </strong><span class="badge rounded-pill text-bg-{{ $technology->color }}">{{ $technology->label }}</span>
+                        @empty
+                            <strong class="text-uppercase">Tecnologie: </strong><span>Nessuna</span>
+                        @endforelse
+                    </div>
                 </div>
             </div>
             <footer class="d-flex justify-content-between align--items-center mt-5">
