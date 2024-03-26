@@ -8,7 +8,7 @@
         <form action="{{ route('admin.projects.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="row mt-3">
-                <div class="col-6">
+                <div class="col-5">
                     <div class="mb-3">
                         <label for="title" class="form-label">Titolo Progetto</label>
                         <input type="text"
@@ -31,8 +31,8 @@
                             value="{{ Str::slug(old('title')) }}" disabled>
                     </div>
                 </div>
-                <div class="col-1 mt-5">
-                    <div class="form-check">
+                <div class="col-2 mt-5">
+                    <div class="form-check form-switch">
                         <input value="1" type="checkbox" class="form-check-input" id="is_published" name="is_published"
                             @if (old('is_published')) checked @endif>
                         <label for="is_published" class="form-check-label">Pubblica</label>
