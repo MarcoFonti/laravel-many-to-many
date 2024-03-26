@@ -39,4 +39,10 @@ class Project extends Model
         /* UN SOLO TYPE */
         return $this->belongsTo(Type::class);
     }
+
+    /* RELAZIONE CON IL MODELLO TECHNOLOGY */
+    public function technologies() {
+        /* MOLTE TECNOLOGIE */
+        return $this->belongsToMany(Technology::class);
+    }
 }
