@@ -23,11 +23,12 @@
             <div>
                 <strong class="text-uppercase">Data creazione: </strong> <span class="me-3">{{ $project->getCreatedAt() }}</span>
                 <strong class="text-uppercase">Ultima modifica: </strong> <span>{{ $project->getUpdatedAt() }}</span>
-                <div class="mt-2">
+                <div class="mt-2 d-flex align-items-center gap-1">
+                    <strong class="text-uppercase">Tecnologie: </strong>
                     @forelse ($project->technologies as $technology)
-                        <strong class="text-uppercase">Tecnologie: </strong><span class="badge rounded-pill text-bg-{{ $technology->color }}">{{ $technology->label }}</span>
+                        <span class="badge rounded-pill text-bg-{{ $technology->color }}">{{ $technology->label }}</span>
                     @empty
-                        <strong class="text-uppercase">Tecnologie: </strong><span>Nessuna</span>
+                        <span>Nessuna</span>
                     @endforelse
                 </div>
             </div>

@@ -104,6 +104,27 @@
                             class="img-fluid" alt="{{ $project->title }}" id="preview">
                     </div>
                 </div>
+                <div class="col-12">
+                    <div class="mb-3">
+                        <div class="mb-1">Seleziona le Tecnologie</div>
+                        <div class="form-group @error('technologies') is-invalid 
+                        @enderror">
+                        @foreach ($technologies as $technology)
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="{{ "techno-$technology->id" }}"
+                                    value="{{ $technology->id }}" name="technologies[]" @if (in_array($technology->id , old('technologies', $array_technologies))) checked @endif>
+                                <label class="form-check-label"
+                                    for="{{ "techno-$technology->id" }}">{{ $technology->label }}</label>
+                            </div>
+                        @endforeach
+                    </div>
+                    @error('technologies')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                    </div>
+                </div>
                 <div class="col-6">
                     <div class="d-flex justify-content-start align-items-center">
                         <a class="btn btn-secondary" href="{{ route('admin.projects.index') }}"><i

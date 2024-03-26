@@ -29,7 +29,8 @@ class StoreProjectRequest extends FormRequest
             'content' => 'required|string',
             'image' => 'nullable|image',
             'is_published' => 'nullable|boolean',
-            'type_id' => 'nullable|exists:tipes,id'
+            'type_id' => 'nullable|exists:types,id',
+            'technologies' => 'nullable|exists:technologies,id'
         ];
     }
 
@@ -48,6 +49,7 @@ class StoreProjectRequest extends FormRequest
             'content.required' => 'Il contenuto è obbligatorio ',
             'image.image' => 'Il file inserito non è un\'immagine',
             'type_id.exists' => 'Categoria non valida o non esistente',
+            'technologies.exists' => "Tecnologie selezionate non valide",
         ];
     }
 }

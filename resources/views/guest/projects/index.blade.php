@@ -24,10 +24,11 @@
                     <div>
                         <span class="text-uppercase me-3">{{ $project->title }}</span>
                         <span>
+                            <strong class="text-uppercase"><i class="fa-solid fa-screwdriver-wrench">:</i></strong>
                             @forelse ($project->technologies as $technology)
-                                <strong class="text-uppercase"><i class="fa-solid fa-screwdriver-wrench">:</i></strong><span class="ms-1 badge rounded-pill text-bg-{{ $technology->color }}">{{ $technology->label }}</span>
+                                <span class="badge rounded-pill text-bg-{{ $technology->color }}">{{ $technology->label }}</span>
                             @empty
-                                <strong class="text-uppercase"><i class="fa-solid fa-screwdriver-wrench">:</i></strong><span class="ms-1">Nessuna</span>
+                                <span>Nessuna</span>
                         @endforelse
                         </span>
                     </div>

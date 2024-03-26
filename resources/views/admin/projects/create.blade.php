@@ -56,14 +56,14 @@
                 <div class="col-3">
                     <div class="mb-3">
                         <label for="type_id" class="form-label">Selezione Tipologia</label>
-                        <select name="type_id" id="type_id" class="form-select @error('type_id') is-invalid 
+                        <select name="type_id" id="type_id"
+                            class="form-select @error('type_id') is-invalid 
                         @elseif(old('type_id')) is-valid 
                         @enderror">
                             <option value="">Nessuna</option>
                             @foreach ($types as $type)
-                                <option value="{{ $type->id }}" @if (old('type_id', '') == $type->id)
-                                    selected
-                                @endif>{{ $type->label }}</option>
+                                <option value="{{ $type->id }}" @if (old('type_id', '') == $type->id) selected @endif>
+                                    {{ $type->label }}</option>
                             @endforeach
                         </select>
                         @error('type_id')
@@ -90,9 +90,30 @@
                     </div>
                 </div>
                 <div class="col-1">
-                    <div class="mb-5">
+                    <div class="mb-3">
                         <img src="{{ old('image') ? asset('storage/' . old('image')) : 'https://marcolanci.it/boolean/assets/placeholder.png' }}"
                             class="img-fluid" alt="Immageni Progetto" id="preview">
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="mb-3">
+                        <div class="mb-1">Seleziona le Tecnologie</div>
+                        <div class="form-group @error('technologies') is-invalid 
+                        @enderror"> 
+                        @foreach ($technologies as $technology)
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="{{ "techno-$technology->id" }}"
+                                    value="{{ $technology->id }}" name="technologies[]" @if (in_array($technology->id , old('technologies', []))) checked @endif>
+                                <label class="form-check-label"
+                                    for="{{ "techno-$technology->id" }}">{{ $technology->label }}</label>
+                            </div>
+                        @endforeach
+                        </div>
+                        @error('technologies')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
                     </div>
                 </div>
                 <div class="col-6">
